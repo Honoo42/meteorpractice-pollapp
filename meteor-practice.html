@@ -1,0 +1,70 @@
+<head>
+  <title>Honoo's Polls</title>
+</head>
+
+<body>
+	<h1>Please answer a couple of questions<small>And Feel Free to Add A Few of Your Own</small></h1>
+	<div class="navbar navbar-static-top navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="/">Epoll</a>
+				<ul class="nav pull-right">
+					<li>
+						{{> loginButtons}}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+<!-- Checks to see if a page visitor is signed in with a social media account; if yes, it displays the question input form and list of available questions. If there is no account found, it displays the login banner -->
+		<div class="container" id="main">
+			{{#if currentUser}}
+				{{> addquestion}}
+			{{/if}}
+			{{#unless currentUser}}
+				{{> banner}}
+			{{/unless}}
+			{{> questions}}
+		</div>
+
+</body>
+<!-- Creates the banner on page load to ask the user to sign in with a social media account -->
+<template name="banner">
+	<div class="container">
+		<div class="row">
+			<div class="span6">
+				<div class="well">
+					<h4>Sign in using Twitter or Facebook to submit new questions or to vote on existing questions.</h4>
+					{{> loginButtons}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<!-- template to input user created question and append it to a list -->
+<template name="addquestion">
+ 
+	<textarea rows="3" class="input-xxlarge" name="questionText" id="questionText" placeholder="Add Your Question"></textarea>
+	<br/>
+	<input type="button" class="btn-info add-question" value="Add Question"/>
+</template>
+<template name="questions">
+<!-- lists all of the questions on the client side by finding the items template -->
+    <h2>All Questions</h2>
+    {{#each items}}
+        {{> question}}
+     {{/each}}
+</template>
+ 
+<template name="question">
+    <div>
+    <!-- Adds the format for answering yes or no to each questiong using buttons -->
+        <p class="lead">
+            {{questionText}}
+            <a class="btn btn-small btn-success yes {{#unless currentUser}}disabled{{/unless}}" href="#"><i class="icon-thumbs-up"></i> Yes {{yes}}</a>
+ 
+            <a class="btn btn-small btn-danger no {{#unless currentUser}}disabled{{/unless}}" href="#"><i class="icon-thumbs-down"></i> No {{no}}</a>
+        </p>
+    </div>
+</template>
+
